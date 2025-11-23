@@ -15,35 +15,47 @@ Questo progetto implementa un Data Contract per la gestione dei dati relativi ai
 
 ```
 .
-├── datacontract.yaml     # Definizione del data contract
-├── docker-compose.yaml   # Configurazione Docker
 ├── init-scripts/
 │   ├── create-tables.sql # Script creazione tabelle
 │   └── insert-data.sql   # Script inserimento dati
-└── README.md
+├── .envrc                # Variabili d'ambiente
+├── datacontract.yaml     # Definizione del data contract
+├── docker-compose.yaml   # Configurazione Docker
+├── pyproject.toml        # Metadati del progetto
+├── README.md             # Documentazione
+└── Taskfile.yaml         # Task utili per il progetto
 ```
 
 ## 📋 Prerequisiti
 
-- [Docker](https://docs.docker.com/get-started/introduction/get-docker-desktop/) e Docker Compose
+- [`Docker`](https://docs.docker.com/get-started/introduction/get-docker-desktop/) e `Docker Compose`.
+ - [`uv`](https://docs.astral.sh/uv/) utilizzato come package manager.
+ - [`task`](https://taskfile.dev) (opzionale) per eseguire le task contenute nel `Taskfile.yaml`.
 
 ## 🚀 Installazione e Avvio
 
 1. Clona il repository:
    ```bash
-   git clone https://github.com/sja-huware/data-contract-l2.git
-   cd data-contract-l2
+   git clone https://github.com/sja-huware/datacontract-demo.git
+   cd datacontract-demo
    ```
 
 2. Avvia il container Docker:
    ```bash
-   docker-compose up -d
+   task start
    ```
 
 3. Verifica che il container sia in esecuzione:
    ```bash
    docker-compose ps
    ```
+
+### Taskfile
+> A fast, cross-platform build tool inspired by Make, designed for modern workflows.
+
+Il progetto contiene anche un `Taskfile.yaml`, che include una serie di task utili.
+
+Per eseguire queste task puoi usare il tool [`task`](https://taskfile.dev), oppure eseguire i comandi direttamente con `uv run ...`.
 
 ## 🗄️ Struttura del Database
 
@@ -57,6 +69,21 @@ Questo progetto implementa un Data Contract per la gestione dei dati relativi ai
 | occupation       | varchar | Occupazione/professione       | -                |
 | age              | integer | Età (min: 0)                 | -                |
 | planet_of_origin | varchar | Pianeta di origine           | -                |
+| first_appearance_year | integer | Anno della prima apparizione   | -                 |
+| is_main_character | boolean | Personaggio principale   | Default false                 |
+
+### Tabella `simpsons`
+
+| Campo               | Tipo    | Descrizione                      | Vincoli           |
+|--------------------|---------|----------------------------------|-------------------|
+| character_id       | integer | ID univoco del personaggio       | Primary Key       |
+| name               | varchar | Nome completo                    | Not Null          |
+| role               | varchar | Ruolo nel contesto della serie   | -                 |
+| age                | integer | Età                              | -                 |
+| occupation         | varchar | Occupazione/professione          | -                 |
+| family_member      | boolean | Appartiene a una famiglia        | Default false     |
+| first_appearance_year | integer | Anno della prima apparizione   | -                 |
+| catchphrase        | varchar | Frase caratteristica (catchphrase) | -              |
 
 ## 🛠️ Sviluppo
 
