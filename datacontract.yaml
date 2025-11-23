@@ -69,7 +69,6 @@ models:
       age:
         type: integer
         description: Età del personaggio
-        minimum: 0
       planet_of_origin:
         type: varchar
         description: Pianeta di origine
@@ -100,7 +99,6 @@ models:
       age:
         type: integer
         description: Età del personaggio
-        minimum: 0
       occupation:
         type: varchar
         description: Occupazione/professione
@@ -118,20 +116,39 @@ models:
 # Rules to be applied to the data to ensure its quality. Data can be verified by executing these checks through a data quality engine.
 quality:
   type: SodaCL
+  # Duplicate count: Ensures no duplicate exist. Verifies uniqueness across all records.
+  # Missing count: Validates that field is present for every record.
+  # Invalid count: Validates that field does not contain invalid values.
   specification: |
     checks for futurama:
       - duplicate_count(name) = 0
+      - duplicate_count(character_id) = 0
       - missing_count(character_id) = 0
       - missing_count(name) = 0
+      - missing_count(species) = 0
       - invalid_count(age) = 0:
           valid min: 0
+      - invalid_count(age) = 0:
+          valid max: 2000
+      - missing_count(planet_of_origin) = 0
+      - invalid_count(first_appearance_year) = 0:
+          valid min: 1999
+          valid max: 2024
     
     checks for simpsons:
       - duplicate_count(name) = 0
+      - duplicate_count(character_id) = 0
       - missing_count(character_id) = 0
       - missing_count(name) = 0
+      - missing_count(role) = 0
       - invalid_count(age) = 0:
           valid min: 0
+      - invalid_count(age) = 0:
+          valid max: 120
+      - missing_count(occupation) = 0
+      - invalid_count(first_appearance_year) = 0:
+          valid min: 1989
+          valid max: 2024
 
 # A service level is defined as an agreed-upon, measurable level of performance for provided the data.
 servicelevels:

@@ -6,7 +6,9 @@ Questo progetto implementa un Data Contract per la gestione dei dati relativi ai
 
 ## 🎯 Caratteristiche Principali
 
-- Definizione strutturata dei dati dei personaggi
+- Definizione strutturata dei dati dei personaggi tramite Data Contract
+- uv come package manager
+- Taskfile per eseguire operazioni utili
 - Implementazione basata su PostgreSQL
 - Containerizzazione tramite Docker
 - Script di inizializzazione automatica del database
@@ -134,6 +136,12 @@ uv run datacontract export --format html
 
 ```bash
 uv run datacontract test
+```
+
+Aggiungere un personaggio che non rispetta le regole di data quality del contratto:
+```sql
+INSERT INTO cartoons.futurama (name, species, occupation, age, planet_of_origin, first_appearance_year, is_main_character)
+VALUES ('Scruffy', 'Human', 'Janitor', 5000, 'Earth', 2002, false);
 ```
 
 ---
